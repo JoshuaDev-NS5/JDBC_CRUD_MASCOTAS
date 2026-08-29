@@ -1,6 +1,9 @@
 package org.example;
 import org.example.Mascota;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 public class MascotaDAO {
@@ -8,6 +11,15 @@ public class MascotaDAO {
 
     //Metodo que devuelve una lista de mascotas
     public List<Mascota> ListarMascotas(){
+        String SQL = "EXEC dbo.usp_Listar_MASCOTAS";
+        try(Connection CNX = Conexion.obtenerConexion();
+            PreparedStatement ps = CNX.prepareStatement(SQL)){
+
+
+
+        }catch (SQLException ErrorSQL ) {
+
+        }
         return null;
     }
     //Metodo que devuelve una sola mascota con su información
