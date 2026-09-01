@@ -1,11 +1,15 @@
 package org.example;
+import org.example.DTOs.MascotaListaDTO;
+
 import java.sql.*;
+import java.util.List;
 import java.util.Scanner;
 
 //TIP Para <b>ejecutar</b> el código, pulsar <shortcut actionId="Run"/> o
 // Haz clic en el ícono <icon src="AllIcons.Actions.Execute"/> del margen.
 public class Main {
     public static void main(String[] args) {
+        MascotaDAO Logica = new MascotaDAO();
         Scanner sc=new Scanner(System.in);
         boolean Salir = false;
         System.out.println("================");
@@ -35,9 +39,12 @@ public class Main {
             }
             switch (option){
                 case 1:
-                    while (true){
 
-                        break;
+                    List<MascotaListaDTO> Mascotas = Logica.ListarMascotas();
+                    for(MascotaListaDTO M : Mascotas){
+                        System.out.println(M.getID_Mascota() + " | " + M.getNombre()+ " | " + M.getGenero() + " | " + M.getEdad() +
+                                M.getPeso() + " | " + M.getEstado() + " | " + M.getTipo_Mascota() + " | " + M.getCliente());
+
                     }
                     break;
                 case 2:

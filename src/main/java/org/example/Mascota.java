@@ -6,7 +6,7 @@ public class Mascota {
     private String Raza;
     private String ID_Tipo_Mascota;
     private String NombreMascota;
-    private String Fecha_de_Nacimiento;
+    private String Edad;
     private double Peso;
     private String ID_Cliente;
     private String Genero;
@@ -56,12 +56,12 @@ public class Mascota {
         this.NombreMascota = NombreMascota;
     }
 
-    public String getFecha_de_Nacimiento() {
-        return Fecha_de_Nacimiento;
+    public String getEdad() {
+        return Edad;
     }
 
     public void setFecha_de_Nacimiento(String Fecha_de_Nacimiento) {
-        this.Fecha_de_Nacimiento = Fecha_de_Nacimiento;
+        this.Edad = Fecha_de_Nacimiento;
     }
 
     public double getPeso() {
