@@ -1,5 +1,6 @@
 package org.example;
-import org.example.Mascota;
+import org.example.DTOs.MascotaDTO;
+//import org.example.Mascota;
 import org.example.DTOs.MascotaListaDTO;
 
 import java.sql.Connection;
@@ -33,24 +34,24 @@ public class MascotaDAO {
 
                 Mascotas.add(mascotaListaDTO);
             }
-            return Mascotas;
+
 
 
         }catch (SQLException ErrorSQL ) {
             System.out.println("Error de codigo Metodo Listar mascotas: " + ErrorSQL);
         }
-        return null;
+        return Mascotas;
     }
     //Metodo que devuelve una sola mascota con su información
     public MascotaDTO ConsultarMascota(String ID){
         //Creamos la cadena de sql
-        String SQL= "EXEC dbo.usp_Consultar_MASCOTA" + ID;
+        String SQL= "EXEC dbo.usp_Consultar_MASCOTA " + ID;
         //Declaramos la instancia de mascota para guardar los datos;
         MascotaDTO mascotaDTO = new MascotaDTO();
         try (Connection CNX = Conexion.obtenerConexion();
              PreparedStatement ps = CNX.prepareStatement(SQL);
              ResultSet resultado = ps.executeQuery()){
-            if(!resultado.next()){//si resultado no muestra ninguna fila de mas se ejecuta
+            if(resultado.next()){//si resultado no muestra ninguna fila de mas se ejecuta
                 mascotaDTO.setID_Mascota(resultado.getString("ID_mascota"));
                 mascotaDTO.setNombre(resultado.getString("nomMascota"));
                 mascotaDTO.setGenero(resultado.getString("Genero"));
@@ -64,13 +65,13 @@ public class MascotaDAO {
                 mascotaDTO.setTelefono(resultado.getString("telfono"));
                 mascotaDTO.setEmail(resultado.getString("Email"));
             }
-            return mascotaDTO;
+
 
         }catch (SQLException ErrorSQL){
             System.out.println("Error de codigo Metodo Listar mascotas: " + ErrorSQL);
         }
 
-        return null;
+        return mascotaDTO;
     }
 
     //Metodo que inserta una clase a Mascota a la tabla de mascota

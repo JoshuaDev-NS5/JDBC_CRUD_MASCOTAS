@@ -1,4 +1,5 @@
 package org.example;
+import org.example.DTOs.MascotaDTO;
 import org.example.DTOs.MascotaListaDTO;
 
 import java.sql.*;
@@ -48,8 +49,37 @@ public class Main {
                     }
                     break;
                 case 2:
+                    try {
+                        while (true){
+                            System.out.println("Ingrese el ID de la mascota que desa consultar (MAS000):");
+                            String ID = null;
+                            ID=sc.nextLine();
+                            if(ID.matches("MAS[0-9]{3}")){
+                                System.out.println("Id Valido");
+                                MascotaDTO Consulta= Logica.ConsultarMascota(ID);
+                                if(Consulta==null){
+                                    System.out.println("El ID buscado no tiene ninguna mascota seleccionada");
+                                    continue;
+                                }
+                                else {
+                                    System.out.println("Si existe mascota");
+                                    System.out.println(Consulta.getID_Mascota() + " | " + Consulta.getNombre()+ " | " +
+                                            Consulta.getGenero() + " | " + Consulta.getFecha_de_nacimiento() + " | " +
+                                            Consulta.getEdad() + " | " + Consulta.getPeso() + " | " +
+                                            Consulta.getEstado() + " | " + Consulta.getRaza() + " | " +
+                                            Consulta.getTipo_Mascota() + " | " + Consulta.getCliente());
+                                }
+                            }else {
+                                System.out.println("El Id dado no cumple con la estructura solicitada solicitado");
+                                continue;
+                            }
+                            System.out.println("Termina el bucle");
+                            break;
 
-                    break;
+                        }
+                    }catch (Exception error){
+                        System.out.println("Error en la consulta por una mascota" + error);
+                    }
 
                 case 3:
 
