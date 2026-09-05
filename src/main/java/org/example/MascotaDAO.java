@@ -42,7 +42,34 @@ public class MascotaDAO {
         return null;
     }
     //Metodo que devuelve una sola mascota con su información
-    public Mascota ConsultarMascota(String ID){
+    public MascotaDTO ConsultarMascota(String ID){
+        //Creamos la cadena de sql
+        String SQL= "EXEC dbo.usp_Consultar_MASCOTA" + ID;
+        //Declaramos la instancia de mascota para guardar los datos;
+        MascotaDTO mascotaDTO = new MascotaDTO();
+        try (Connection CNX = Conexion.obtenerConexion();
+             PreparedStatement ps = CNX.prepareStatement(SQL);
+             ResultSet resultado = ps.executeQuery()){
+            if(!resultado.next()){//si resultado no muestra ninguna fila de mas se ejecuta
+                mascotaDTO.setID_Mascota(resultado.getString("ID_mascota"));
+                mascotaDTO.setNombre(resultado.getString("nomMascota"));
+                mascotaDTO.setGenero(resultado.getString("Genero"));
+                mascotaDTO.setFecha_de_nacimiento(resultado.getString("fecha_de_nacimiento"));
+                mascotaDTO.setEdad(resultado.getInt("Edad"));
+                mascotaDTO.setPeso(resultado.getDouble("peso"));
+                mascotaDTO.setEstado(resultado.getString("estado"));
+                mascotaDTO.setRaza(resultado.getString("nombre_raza"));
+                mascotaDTO.setTipo_Mascota(resultado.getString("tipo_mascota"));
+                mascotaDTO.setCliente(resultado.getString("Cliente"));
+                mascotaDTO.setTelefono(resultado.getString("telfono"));
+                mascotaDTO.setEmail(resultado.getString("Email"));
+            }
+            return mascotaDTO;
+
+        }catch (SQLException ErrorSQL){
+            System.out.println("Error de codigo Metodo Listar mascotas: " + ErrorSQL);
+        }
+
         return null;
     }
 
