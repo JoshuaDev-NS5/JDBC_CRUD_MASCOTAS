@@ -1,4 +1,6 @@
 package org.example;
+import org.example.DTOs.ClienteDTO;
+import org.example.DTOs.EstadoDTO;
 import org.example.DTOs.MascotaDTO;
 //import org.example.Mascota;
 import org.example.DTOs.MascotaListaDTO;
@@ -89,5 +91,50 @@ public class MascotaDAO {
     }
 
 
+    //Traer datos de Clientes
+    public List<ClienteDTO> Lisata_Clientes(){
+        String SQL= "execute usp_Listar_CLIENTES";
+        List<ClienteDTO> ClientesDTO = new ArrayList<>();
+        try(Connection CNX = Conexion.obtenerConexion();
+            PreparedStatement stm= CNX.prepareStatement(SQL);
+            ResultSet resultado = stm.executeQuery()){
+
+            while (resultado.next()){//el bucle continúa hasta que se queda sin filas;
+                ClienteDTO ClienteDTO = new ClienteDTO();
+                ClienteDTO.setID_Cliente(resultado.getString("ID_cliente"));
+                ClienteDTO.setNombreCompleto(resultado.getString("NombreCompleto"));
+                ClienteDTO.setDNI(resultado.getString("DNI"));
+
+                ClientesDTO.add(ClienteDTO);
+            }
+
+        }catch (SQLException ErrorSQL) {
+            System.out.println("Error de codigo Metodo Listar Clientes: " + ErrorSQL);
+        }
+        return ClientesDTO;
+    }
+
+    // Traer datos de Estado
+    public List<EstadoDTO> Listar_Estado(){
+        String SQL = "EXECUTE usp_Listar_ESTADOS";
+        List<EstadoDTO> Estados = new ArrayList<>();
+        try(Connection CNX = Conexion.obtenerConexion();
+            PreparedStatement stm= CNX.prepareStatement(SQL);
+            ResultSet resultado = stm.executeQuery()){
+
+            while (resultado.next()){//el bucle continúa hasta que se queda sin filas;
+                EstadoDTO EstadoDTO= new EstadoDTO();
+                EstadoDTO.setID_Estado(resultado.getString("id_estado"));
+                EstadoDTO.setEstado(resultado.getString("estado"));
+
+                Estados.add(EstadoDTO);
+            }
+
+        }catch (SQLException ErrorSQL) {
+            System.out.println("Error de codigo Metodo Listar Estados: " + ErrorSQL);
+        }
+        return Estados;
+
+    }
 
 }
