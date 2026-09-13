@@ -1,9 +1,6 @@
 package org.example;
-import org.example.DTOs.ClienteDTO;
-import org.example.DTOs.EstadoDTO;
-import org.example.DTOs.MascotaDTO;
+import org.example.DTOs.*;
 //import org.example.Mascota;
-import org.example.DTOs.MascotaListaDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -77,7 +74,31 @@ public class MascotaDAO {
     }
 
     //Metodo que inserta una clase a Mascota a la tabla de mascota
-    public void Insertar(Mascota mascota){
+    public void Insertar(MascotaTablaDTO mascota){
+        String SQL = "EXECUTE usp_Insertar_MASCOTA ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
+        try (Connection CNX = Conexion.obtenerConexion();
+             PreparedStatement stm = CNX.prepareStatement(SQL)){
+            stm.setString(1, mascota.getID_Mascota());
+            stm.setString(2, mascota.getID_Estado());
+            stm.setString(3, mascota.getID_Raza());
+            stm.setString(4, mascota.getID_Tipo_Mascota());
+            stm.setString(5, mascota.getNombre());
+            stm.setString(6, mascota.getFecha_de_nacimiento());
+            stm.setDouble(7, mascota.getPeso());
+            stm.setString(8, mascota.getID_Cliente());
+            stm.setString(9, mascota.getGenero());
+            stm.setBytes(10, mascota.getFoto());
+            stm.setString(11, mascota.getFec_Registro());
+            stm.setString(12, mascota.getUsu_Registrado());
+            stm.setString(13, mascota.getFec_ULT_MOD());
+            stm.setString(14, mascota.getUse_utl_mod());
+            stm.executeUpdate();
+
+
+
+        }catch (SQLException ErrorSQL){
+            System.out.println("Error en el metodo DAO de Insertar: "+ ErrorSQL);
+        }
 
     }
 
@@ -92,9 +113,9 @@ public class MascotaDAO {
 
 
     //Traer datos de Clientes
-    public List<ClienteDTO> Lisata_Clientes(){
+    public List<ClienteDTO> Lisatar_Clientes(){
         String SQL= "execute usp_Listar_CLIENTES";
-        List<ClienteDTO> ClientesDTO = new ArrayList<>();
+        List<ClienteDTO>  clientesDTO = new ArrayList<>();
         try(Connection CNX = Conexion.obtenerConexion();
             PreparedStatement stm= CNX.prepareStatement(SQL);
             ResultSet resultado = stm.executeQuery()){
@@ -105,13 +126,13 @@ public class MascotaDAO {
                 ClienteDTO.setNombreCompleto(resultado.getString("NombreCompleto"));
                 ClienteDTO.setDNI(resultado.getString("DNI"));
 
-                ClientesDTO.add(ClienteDTO);
+                clientesDTO.add(ClienteDTO);
             }
 
         }catch (SQLException ErrorSQL) {
             System.out.println("Error de codigo Metodo Listar Clientes: " + ErrorSQL);
         }
-        return ClientesDTO;
+        return clientesDTO;
     }
 
     // Traer datos de Estado
@@ -135,6 +156,44 @@ public class MascotaDAO {
         }
         return Estados;
 
+    }
+
+    //
+    public List<RazaDTO> Listar_Raza(){
+        String SQL = "EXECUTE usp_Listar_RAZAS";
+        List<RazaDTO> Razas = new ArrayList<>();
+        try(Connection CNX = Conexion.obtenerConexion();
+            PreparedStatement stm = CNX.prepareStatement(SQL);
+            ResultSet resultado = stm.executeQuery()){
+            while (resultado.next()){
+                RazaDTO razaDTO = new RazaDTO();
+                razaDTO.setID_Raza(resultado.getString("id_raza"));
+                razaDTO.setNombre_Raza(resultado.getString("nombre_raza"));
+                razaDTO.setID_Tipo_Mascota(resultado.getString("ID_Tipo_mascota"));
+                Razas.add(razaDTO);
+            }
+        }catch (SQLException ErrorSQL) {
+            System.out.println("Error de codigo Metodo Listar Razas: " + ErrorSQL);
+        }
+        return Razas;
+    }
+
+    public List<Tipo_MascotaDTO> Listar_Tipo_Mascota(){
+        String SQL = "EXEC dbo.usp_Listar_TIPO_MASCOTA";
+        List<Tipo_MascotaDTO> Tipos = new ArrayList<>();
+        try(Connection CNX = Conexion.obtenerConexion();
+            PreparedStatement stm = CNX.prepareStatement(SQL);
+            ResultSet resultado = stm.executeQuery()){
+            while (resultado.next()){
+                Tipo_MascotaDTO tipoDTO = new Tipo_MascotaDTO();
+                tipoDTO.setID_Tipo_Mascota(resultado.getString("id_tipo_mascota"));
+                tipoDTO.setTipo_de_mascota(resultado.getString("tipo_mascota"));
+                Tipos.add(tipoDTO);
+            }
+        }catch (SQLException ErrorSQL) {
+            System.out.println("Error de codigo Metodo Listar Tipos: " + ErrorSQL);
+        }
+        return Tipos;
     }
 
 }

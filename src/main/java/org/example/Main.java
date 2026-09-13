@@ -1,8 +1,11 @@
 package org.example;
+import org.example.DTOs.EstadoDTO;
 import org.example.DTOs.MascotaDTO;
 import org.example.DTOs.MascotaListaDTO;
+import org.example.DTOs.RazaDTO;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -82,7 +85,32 @@ public class Main {
                     }
 
                 case 3:
+                    try {
+                        //Llamamos a las listas de id fuera del while para evitar llamar varias veces durante el bucle
+                        // a la base de datos
+                        List<EstadoDTO> Estados= Logica.Listar_Estado();
+                        List<RazaDTO> Razas=Logica.Listar_Raza();
+                        while (true){
+                            System.out.println("Para agregar una mascota se te proporcionara los ID Necesarios" + "\n" );
+                            System.out.println("Datos de Estado:-----------------------------");
+                            System.out.println("| ID_Estado | Estado |");
+                            for(EstadoDTO EST : Estados){
+                                System.out.println(" | " + EST.getID_Estado() + " | " + EST.getEstado() + " | ");
+                            }
+                            System.out.println("\n");
+                            System.out.println("Datos de Razas:-----------------------------");
+                            System.out.println("| ID_Raza | Nombre |");
+                            for(RazaDTO RAZ : Razas){
+                                System.out.println(" | " + RAZ.getID_Raza() + " | " + RAZ.getNombre_Raza() + " | ");
+                            }
+                            System.out.println("\n");
+                            break;
 
+
+                        }
+                    }catch (Exception error){
+                        System.out.println("Error en el registro por mascota: " + error);
+                    }
                     break;
 
                 case 4:
