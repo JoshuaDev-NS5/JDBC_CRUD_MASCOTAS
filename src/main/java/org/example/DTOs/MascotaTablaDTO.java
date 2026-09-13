@@ -1,7 +1,7 @@
 package org.example.DTOs;
 
 public class MascotaTablaDTO {
-    private String ID_Mascota;
+
     private String ID_Estado;
     private String ID_Raza;
     private String ID_Tipo_Mascota;
@@ -17,13 +17,6 @@ public class MascotaTablaDTO {
     private String Use_utl_mod;
 
 
-    public String getID_Mascota() {
-        return ID_Mascota;
-    }
-
-    public void setID_Mascota(String ID_Mascota) {
-        this.ID_Mascota = ID_Mascota;
-    }
 
     public String getID_Estado() {
         return ID_Estado;

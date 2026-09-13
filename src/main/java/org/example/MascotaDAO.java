@@ -75,23 +75,22 @@ public class MascotaDAO {
 
     //Metodo que inserta una clase a Mascota a la tabla de mascota
     public void Insertar(MascotaTablaDTO mascota){
-        String SQL = "EXECUTE usp_Insertar_MASCOTA ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
+        String SQL = "EXECUTE usp_Insertar_MASCOTA ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?";
         try (Connection CNX = Conexion.obtenerConexion();
              PreparedStatement stm = CNX.prepareStatement(SQL)){
-            stm.setString(1, mascota.getID_Mascota());
-            stm.setString(2, mascota.getID_Estado());
-            stm.setString(3, mascota.getID_Raza());
-            stm.setString(4, mascota.getID_Tipo_Mascota());
-            stm.setString(5, mascota.getNombre());
-            stm.setString(6, mascota.getFecha_de_nacimiento());
-            stm.setDouble(7, mascota.getPeso());
-            stm.setString(8, mascota.getID_Cliente());
-            stm.setString(9, mascota.getGenero());
-            stm.setBytes(10, mascota.getFoto());
-            stm.setString(11, mascota.getFec_Registro());
-            stm.setString(12, mascota.getUsu_Registrado());
-            stm.setString(13, mascota.getFec_ULT_MOD());
-            stm.setString(14, mascota.getUse_utl_mod());
+            stm.setString(1, mascota.getID_Estado());
+            stm.setString(2, mascota.getID_Raza());
+            stm.setString(3, mascota.getID_Tipo_Mascota());
+            stm.setString(4, mascota.getNombre());
+            stm.setString(5, mascota.getFecha_de_nacimiento());
+            stm.setDouble(6, mascota.getPeso());
+            stm.setString(7, mascota.getID_Cliente());
+            stm.setString(8, mascota.getGenero());
+            stm.setBytes(9, mascota.getFoto());
+            stm.setString(10, mascota.getFec_Registro());
+            stm.setString(11, mascota.getUsu_Registrado());
+            stm.setString(12, mascota.getFec_ULT_MOD());
+            stm.setString(13, mascota.getUse_utl_mod());
             stm.executeUpdate();
 
 
@@ -179,7 +178,7 @@ public class MascotaDAO {
     }
 
     public List<Tipo_MascotaDTO> Listar_Tipo_Mascota(){
-        String SQL = "EXEC dbo.usp_Listar_TIPO_MASCOTA";
+        String SQL = "EXECUTE usp_Listar_TIPOS_MASCOTA";
         List<Tipo_MascotaDTO> Tipos = new ArrayList<>();
         try(Connection CNX = Conexion.obtenerConexion();
             PreparedStatement stm = CNX.prepareStatement(SQL);

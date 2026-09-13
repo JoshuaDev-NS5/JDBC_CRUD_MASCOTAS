@@ -1,8 +1,5 @@
 package org.example;
-import org.example.DTOs.EstadoDTO;
-import org.example.DTOs.MascotaDTO;
-import org.example.DTOs.MascotaListaDTO;
-import org.example.DTOs.RazaDTO;
+import org.example.DTOs.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -90,6 +87,11 @@ public class Main {
                         // a la base de datos
                         List<EstadoDTO> Estados= Logica.Listar_Estado();
                         List<RazaDTO> Razas=Logica.Listar_Raza();
+                        List<Tipo_MascotaDTO> Tipos=Logica.Listar_Tipo_Mascota();
+                        if(Tipos==null){
+                            System.out.println("Tipos esta vacio");
+                        }
+                        MascotaTablaDTO M= new MascotaTablaDTO();
                         while (true){
                             System.out.println("Para agregar una mascota se te proporcionara los ID Necesarios" + "\n" );
                             System.out.println("Datos de Estado:-----------------------------");
@@ -97,6 +99,15 @@ public class Main {
                             for(EstadoDTO EST : Estados){
                                 System.out.println(" | " + EST.getID_Estado() + " | " + EST.getEstado() + " | ");
                             }
+                            System.out.println("Ingrese el estado:");
+                            String Estado= sc.nextLine();
+                            if (Estado.matches("EST[0-9]{3}")){
+                                M.setID_Estado(Estado);
+                            }else {
+                                System.out.println("El Id dado no cumple con la estructura solicitada solicitado");
+                                continue;
+                            }
+                            /*Solicitamos el dato de Raza --------------------*/
                             System.out.println("\n");
                             System.out.println("Datos de Razas:-----------------------------");
                             System.out.println("| ID_Raza | Nombre |");
@@ -104,6 +115,47 @@ public class Main {
                                 System.out.println(" | " + RAZ.getID_Raza() + " | " + RAZ.getNombre_Raza() + " | ");
                             }
                             System.out.println("\n");
+                            System.out.println("Ingrese la Raza:");
+                            String Raza= sc.nextLine();
+                            if (Raza.matches("RAZ[0-9]{3}")){
+                                M.setID_Raza(Raza);
+                            }else {
+                                System.out.println("El Id dado no cumple con la estructura solicitada solicitado");
+                                continue;
+                            }
+                            /*Ingresando el tipo de mascotas ---------------------*/
+                            System.out.println("\n");
+                            System.out.println("Datos de Tipos de Mascotas:-----------------------------");
+                            System.out.println("| ID_Tipo de Mascota | Tipo de mascota |");
+                            for(Tipo_MascotaDTO TIP : Tipos){
+                                System.out.println(" | " + TIP.getID_Tipo_Mascota() + " | " + TIP.getTipo_de_mascota()+ " | ");
+                            }
+
+                            System.out.println("\n");
+                            System.out.println("Ingrese el tipo:");
+                            String TM= sc.nextLine();
+                            if (TM.matches("TIP[0-9]{3}")){
+                                M.setID_Tipo_Mascota(TM);
+                            }else {
+                                System.out.println("El Id dado no cumple con la estructura solicitada solicitado");
+                                continue;
+                            }
+
+                            /*Ingresar el nombre de mascota ---------------*/
+                            System.out.println("\n");
+                            System.out.println("Ingresa el nombre de la mascota");
+                            String Nombre=sc.nextLine();
+                            if(Nombre.matches("[a-zA-Z]+")) {//Validamos que sea una palabra alfabetica
+                                M.setNombre(Nombre);
+                            }else {
+                                System.out.println("Se ingreso un nombre invalido, solo se permiten letras");
+                                continue;
+                            }
+
+                            System.out.println(M.getID_Estado() + M.getID_Raza() + M.getID_Tipo_Mascota() + M.getNombre());
+
+
+
                             break;
 
 
