@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 //TIP Para <b>ejecutar</b> el código, pulsar <shortcut actionId="Run"/> o
 // Haz clic en el ícono <icon src="AllIcons.Actions.Execute"/> del margen.
@@ -88,6 +89,7 @@ public class Main {
                         List<EstadoDTO> Estados= Logica.Listar_Estado();
                         List<RazaDTO> Razas=Logica.Listar_Raza();
                         List<Tipo_MascotaDTO> Tipos=Logica.Listar_Tipo_Mascota();
+                        List<ClienteDTO> Clientes=Logica.Lisatar_Clientes();
                         if(Tipos==null){
                             System.out.println("Tipos esta vacio");
                         }
@@ -151,9 +153,66 @@ public class Main {
                                 System.out.println("Se ingreso un nombre invalido, solo se permiten letras");
                                 continue;
                             }
+                            /*Ingresar Fecha de nacimineto-------------*/
+                            System.out.println("\n");
+                            System.out.println("Ingresar la fecha de nacimiento AÑO-MES-DIA");
+                            String Fecha_Nacimiento=sc.nextLine();
+                            if(Fecha_Nacimiento.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}")){
+                                M.setFecha_de_nacimiento(Fecha_Nacimiento);
+                            }else {
+                                System.out.println("Se ingreso una fecha invalida, solo se permiten con el formato indicado");
+                                continue;
+                            }
 
-                            System.out.println(M.getID_Estado() + M.getID_Raza() + M.getID_Tipo_Mascota() + M.getNombre());
+                            /*Ingresar Peso*/
+                            System.out.println("\n");
+                            System.out.println("Ingresar el peso de la mascota");
+                            Double Peso=sc.nextDouble();
+                            if(Peso>=0.0){
+                                M.setPeso(Peso);
+                            }else {
+                                System.out.println("Se ingreso un peso erroneo, solo se permiten pesos mayores a 0");
+                                continue;
+                            }
 
+                            /*Ingresar Clientes---------------------------------------*/
+                            System.out.println("\n");
+                            System.out.println("Datos de Cliente:-----------------------------");
+                            System.out.println("| ID_Cliente | Nombre | DNI |");
+                            for(ClienteDTO CLI : Clientes){
+                                System.out.println(" | " + CLI.getID_Cliente()+ " | " + CLI.getNombreCompleto() + " | " + CLI.getDNI()+ " | ");
+                            }
+                            System.out.println("\n");
+                            System.out.println("Ingrese el cliente (CLI000):");
+                            sc.nextLine();
+                            String ClienteID= sc.nextLine();
+                            if (ClienteID.matches("CLI[0-9]{3}")){
+                                M.setID_Cliente(ClienteID);
+                            }else {
+                                System.out.println("El Id dado no cumple con la estructura solicitada solicitado");
+                                continue;
+                            }
+
+                            /*Ingresar Peso*/
+                            System.out.println("\n");
+                            System.out.println("Ingresar el genero de la mascota (M/H)");
+                            String Genero=sc.nextLine();
+                            if(Genero.equals("M")  ||  Genero.equals("H") ){
+                                M.setGenero(Genero);
+                            }else {
+                                System.out.println("Se ingreso un Genero erroneo,");
+                                continue;
+                            }
+                            M.setFoto(null);
+                            LocalDate Fecha_actual= LocalDate.now();
+                            M.setFec_Registro(Fecha_actual.toString());
+                            M.setUsu_Registrado("Admin");
+                            M.setFec_ULT_MOD(Fecha_actual.toString());
+                            M.setUse_utl_mod("Admin");
+
+
+                            System.out.println(M.toString());
+                            Logica.Insertar(M);
 
 
                             break;
